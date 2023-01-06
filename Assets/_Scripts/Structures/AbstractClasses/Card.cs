@@ -1,6 +1,8 @@
 ﻿using Assets._Scripts.Structures.Enumerators;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+
 namespace Assets._Scripts.Structures.AbstractClasses
 {
     public abstract class Card
@@ -11,6 +13,8 @@ namespace Assets._Scripts.Structures.AbstractClasses
         public String Description;
         public String FlavorText;
         public UInt16 ManaCost;
+        public string ImageURL;
+        public Sprite Image;
         public List<CardTypeEnum> Types;
         public CardRegionEnum Region;
         public RarityEnum Rarity;

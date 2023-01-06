@@ -26,8 +26,8 @@ public partial class RoundManager : MonoBehaviour
     public void Pass()
     {
         OnPass?.Invoke();
+        Debug.Log("U HAVE PASSED");
         if (EnemyHasPassed)
             RoundEnd();
-        Debug.Log("U HAVE PASSED");
     }
 }

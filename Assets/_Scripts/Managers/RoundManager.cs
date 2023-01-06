@@ -10,7 +10,7 @@ public partial class RoundManager : MonoBehaviour
     private bool EnemyHasPassed = false;
     public static RoundManager Instance;
 
-    public UInt16 RoundNumber;
+    private UInt16 _RoundNumber;
 
     private bool _attackToken;
     private AttackRounds AttackRound;
@@ -18,9 +18,12 @@ public partial class RoundManager : MonoBehaviour
     private void Awake()
     {
 
-        RoundNumber = 0;
+        _RoundNumber = 0;
         Instance = this;
-        GameManager.Instance.OnGameStateChanged+=OnGameStartHandler;
+    }
+    private void Start()
+    {
+        GameManager.Instance.OnGameStateChanged += OnGameStartHandler;
     }
 
     Action<GameStateEnum> OnGameStartHandler = (GS) =>
@@ -31,8 +34,8 @@ public partial class RoundManager : MonoBehaviour
 
     public void RoundStart()
     {
-        RoundNumber++;
-        _attackToken = AttackRound == AttackRounds.Even ? RoundNumber % 2 == 0 : RoundNumber % 2 == 1;
+        _RoundNumber++;
+        _attackToken = AttackRound == AttackRounds.Even ? _RoundNumber % 2 == 0 : _RoundNumber % 2 == 1;
         if (_attackToken)
             Rally();
     }
