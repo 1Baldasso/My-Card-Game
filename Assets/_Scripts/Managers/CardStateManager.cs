@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Assets._Scripts.Structures.Enumerators;
 using UnityEngine;
 
 namespace Assets._Scripts.Managers
@@ -10,7 +10,7 @@ namespace Assets._Scripts.Managers
         {
             Instance = this;
         }
-        public void ChangeCardState(CardState newCardState)
+        public void ChangeCardState(CardStateEnum newCardState)
         {
             switch (newCardState)
             {

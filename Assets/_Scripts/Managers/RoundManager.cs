@@ -1,50 +1,46 @@
-﻿using Assets._Scripts.Structures.Structures;
+﻿using Assets._Scripts.Structures.Enumerators;
+using Assets._Scripts.Structures.Structures;
 using System;
 using System.Collections;
 using UnityEngine;
 
 public partial class RoundManager : MonoBehaviour
 {
+
+    private bool EnemyHasPassed = false;
     public static RoundManager Instance;
+
     public UInt16 RoundNumber;
+
     private bool _attackToken;
     private AttackRounds AttackRound;
-    private RoundState _roundState;
-    private Action<RoundState> RoundStateChange;
+
     private void Awake()
     {
+
         RoundNumber = 0;
         Instance = this;
+        GameManager.Instance.OnGameStateChanged+=OnGameStartHandler;
     }
 
-    private void UpdateRoundState(RoundState newRoundState)
+    Action<GameStateEnum> OnGameStartHandler = (GS) =>
     {
-        _roundState = newRoundState;
-        RoundStateChange?.Invoke(newRoundState);
-    }
-
-    //public void Mulligan()
-    //{
-    //    Deck.DrawCard(5);
-    //    VisualDeck.SelectCards();
-    //}
+        if (GS == GameStateEnum.InGame)
+            Instance.RoundStart();
+    };
 
     public void RoundStart()
     {
         RoundNumber++;
         _attackToken = AttackRound == AttackRounds.Even ? RoundNumber % 2 == 0 : RoundNumber % 2 == 1;
-        UpdateRoundState(RoundState.RoundStart);
+        if (_attackToken)
+            Rally();
     }
 
     public void RoundEnd() 
     {
-        UpdateRoundState(RoundState.RoundStart);
-    }
+        _attackToken = false;
 
-    public void Rally()
-    {
-        Debug.Log("RALLY!");
-        _attackToken = true;
     }
    
 }
@@ -53,12 +49,4 @@ public enum AttackRounds
 {
     Even,
     Odds
-}
-
-public enum RoundState
-{
-    RoundStart,
-    DrawCard,
-    AfterAttack,
-    RoundEnd,
 }
