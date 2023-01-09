@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(state);
         DeckList.CreateDeck(new Deck());
     }
+    public void RaisePlayerEvent(PlayerEventEnum? playerEvent) => OnPlayerAction?.Invoke((PlayerEventEnum)playerEvent);
+    public void RaiseSystemEvent(SystemEventEnum? systemEvent) => OnSystemAction?.Invoke((SystemEventEnum)systemEvent);
+    public void RaiseCombatEvent(CombatEventEnum? combatEvent) => OnResolveCombat?.Invoke((CombatEventEnum)combatEvent);
 
     public static void AssignActionOfType<T>(Action<T> ac) where T : struct
     {

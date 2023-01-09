@@ -4,12 +4,9 @@
     {
         OnDeck,
         OnHand,
-        Played,
-        Summoned,
         OnBoard,
         OnAttack,
-        OnBattle,
-        OnDie,
-        OnGrave
+        OnBlock,
+
     }
 }
