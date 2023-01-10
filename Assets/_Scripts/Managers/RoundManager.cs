@@ -7,7 +7,7 @@ using UnityEngine;
 public partial class RoundManager : MonoBehaviour
 {
 
-    private bool EnemyHasPassed = false;
+    private bool _enemyHasPassed = false;
     public static RoundManager Instance;
 
     private UInt16 _RoundNumber;
@@ -21,12 +21,6 @@ public partial class RoundManager : MonoBehaviour
         _RoundNumber = 0;
         Instance = this;
     }
-
-    Action<GameStateEnum> OnGameStartHandler = (GS) =>
-    {
-        if (GS == GameStateEnum.InGame)
-            Instance.RoundStart();
-    };
 
     public void RoundStart()
     {

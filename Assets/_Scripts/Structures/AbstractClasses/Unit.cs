@@ -13,6 +13,7 @@ namespace Assets._Scripts.Structures.AbstractClasses
         }
         public Int16 Attack;
         public Int16 Health;
+        public string EffectLog = "";
         public List<string> Keywords;
         public List<string> Speaks;
         public PlayerEventEnum? PlayerEvent;

@@ -17,6 +17,9 @@ namespace Assets._Scripts.Managers
         // Use this for initialization
         private void Awake()
         {
+            Mana = 9;
+            SpellMana = 0;
+            NexusHealth = 20;
             Instance = this;
         }
 

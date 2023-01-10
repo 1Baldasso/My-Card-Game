@@ -17,11 +17,15 @@ namespace Assets._Scripts.Structures.Cards.Followers
             this.Description = "When I'm summoned, Rally";
             this.Region = CardRegionEnum.Demacia;
             this.Rarity = RarityEnum.Epic;
+            this.ImageURL = "http://dd.b.pvp.net/4_0_0/set1/en_us/img/cards/01DE002.png";
             base.DecideEvent(UnitCardActionEnum.Summon);
+            base.LoadImage();
         }
         protected override void Effect()
         {
+            EffectLog = "Tianna Rallies";
             RoundManager.Instance.Rally();
+            EffectLog = "";
         }
     }
 }

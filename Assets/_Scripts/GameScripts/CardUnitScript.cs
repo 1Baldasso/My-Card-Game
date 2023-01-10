@@ -1,9 +1,13 @@
-﻿using Assets._Scripts.Structures.Interfaces;
+﻿using Assets._Scripts.Structures.AbstractClasses;
+using Assets._Scripts.Structures.Interfaces;
 using Assets._Scripts.Structures.DTO;
 using Assets._Scripts.Structures.Enumerators;
-using UnityEngine;
 using Assets._Scripts.Managers;
-using Assets._Scripts.Structures.AbstractClasses;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using Assets._Scripts.Structures.Cards.Followers;
+using System.Collections;
 
 namespace Assets._Scripts.GameScripts
 {
@@ -11,21 +15,33 @@ namespace Assets._Scripts.GameScripts
     {
         private Vector3 offset;
         private GameObject selectedObject;
-        private Card card;
+        private Unit card;
         private int YforNextLayer;
         private GameObject NextLayer;
         private InitialTransformDTO initialTransform;
-        void Start()
+        [SerializeField] private Sprite _defaultSprite;
+        [SerializeField] private Image _imageContainer;
+        private void Awake()
         {
-            card.CardState = CardStateEnum.OnDeck;
+            card = new TiannaCrownguard();            
+        }
+        private void Start()
+        {
+            card.CardState = CardStateEnum.OnHand;
+            GameObject.FindGameObjectWithTag("Cost").GetComponentInChildren<TextMeshProUGUI>().text = card.ManaCost.ToString();
+            GameObject.FindGameObjectWithTag("Attack").GetComponentInChildren<TextMeshProUGUI>().text = card.Attack.ToString();
+            GameObject.FindGameObjectWithTag("Health").GetComponentInChildren<TextMeshProUGUI>().text = card.Health.ToString();
+            StartCoroutine(nameof(ProvideImage));
         }
 
         void Update()
         {
             DragObject();
+            if(card.EffectLog != "")
+                Debug.Log(card.EffectLog);
         }
 
-        public virtual void DragObject()
+        public void DragObject()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (Input.GetMouseButtonDown(0))
@@ -49,18 +65,38 @@ namespace Assets._Scripts.GameScripts
             {
                 if (selectedObject.transform.position.y > YforNextLayer)
                 {
-                    if(card.CardState == CardStateEnum.OnHand && PlayerManager.Instance.TryPlayCard(card))
+                    switch (card.CardState)
                     {
-                        NextLayer = GameObject.FindGameObjectWithTag("Board");
-                        card.CardState = CardStateEnum.OnBoard;
+                        case CardStateEnum.OnHand:
+                            if (PlayerManager.Instance.TryPlayCard(card))
+                            {
+                                NextLayer = GameObject.FindGameObjectWithTag("Board");
+                                selectedObject.transform.SetParent(NextLayer.transform, false);
+                                card.CardState = CardStateEnum.OnBoard;                            
+                            }
+                            else
+                            {
+                                selectedObject.transform.position = initialTransform.Position;
+                                selectedObject.transform.SetParent(initialTransform.Parent, false);
+                                Debug.Log("U have no mana for this action");
+                            }
+                            break;
+                        case CardStateEnum.OnBoard:
+                            if (RoundManager.Instance.AttackToken)
+                            {
+                                NextLayer = GameObject.FindGameObjectWithTag("CombatField");
+                                PlayerManager.Instance.RaisePlayerEvent(PlayerEventEnum.Attack);
+                                card.CardState = CardStateEnum.OnAttack;
+                                selectedObject.transform.SetParent(NextLayer.transform, false);
+                            }
+                            else
+                            {
+                                selectedObject.transform.position = initialTransform.Position;
+                                selectedObject.transform.SetParent(initialTransform.Parent, false);
+                                Debug.Log("U have no attack token for this action");
+                            }
+                            break;
                     }
-                    if(card.CardState == CardStateEnum.OnBoard && RoundManager.Instance)
-                    {
-                        NextLayer = GameObject.FindGameObjectWithTag("CombatField");
-                        PlayerManager.Instance.RaisePlayerEvent(PlayerEventEnum.Attack);
-                        card.CardState = CardStateEnum.OnAttack;
-                    }
-                    selectedObject.transform.SetParent(NextLayer.transform,false);
                 }
                 else
                 {
@@ -69,6 +105,11 @@ namespace Assets._Scripts.GameScripts
                 }
                 selectedObject = null;
             }
+        }
+        public IEnumerator ProvideImage()
+        {
+            yield return new WaitUntil(()=>card.Image != null);
+            _imageContainer.sprite = card.Image;
         }
     }
 }

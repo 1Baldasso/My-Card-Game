@@ -21,13 +21,12 @@ public partial class RoundManager : MonoBehaviour
     {
         for(int i = 0; i < q;)
             OnCardDrawn?.Invoke();
-        throw new NotImplementedException();
     }
     public void Pass()
     {
         OnPass?.Invoke();
         Debug.Log("U HAVE PASSED");
-        if (EnemyHasPassed)
+        if (_enemyHasPassed)
             RoundEnd();
     }
 }
