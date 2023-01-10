@@ -2,6 +2,6 @@
 {
     public interface IEventRaiser
     {
-        public abstract void RaiseEvent<T>(T Enum) where T : struct; 
+        public abstract void RaiseEvent(); 
     }
 }

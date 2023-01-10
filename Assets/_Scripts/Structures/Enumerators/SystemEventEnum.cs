@@ -2,10 +2,11 @@
 {
     public enum SystemEventEnum
     {
-        RoundStart,
+        StartRound,
         Summon,
         Death,
         Draw,
-        RoundEnd,
+        EndRound,
+        EndGame
     }
 }

@@ -3,6 +3,7 @@ using Assets._Scripts.Structures.DTO;
 using Assets._Scripts.Structures.Enumerators;
 using UnityEngine;
 using Assets._Scripts.Managers;
+using Assets._Scripts.Structures.AbstractClasses;
 
 namespace Assets._Scripts.GameScripts
 {
@@ -10,14 +11,13 @@ namespace Assets._Scripts.GameScripts
     {
         private Vector3 offset;
         private GameObject selectedObject;
-        private CardStateEnum cardState;
+        private Card card;
         private int YforNextLayer;
         private GameObject NextLayer;
         private InitialTransformDTO initialTransform;
-        private int ManaCost;
         void Start()
         {
-            cardState = CardStateEnum.OnDeck;
+            card.CardState = CardStateEnum.OnDeck;
         }
 
         void Update()
@@ -47,19 +47,18 @@ namespace Assets._Scripts.GameScripts
                 selectedObject.transform.position = mousePosition + offset;
             if (Input.GetMouseButtonUp(0) && selectedObject != null)
             {
-                if (selectedObject.transform.position.y > YforNextLayer && PlayerManager.Instance.Mana > ManaCost)
+                if (selectedObject.transform.position.y > YforNextLayer)
                 {
-                    if(cardState == CardStateEnum.OnHand)
+                    if(card.CardState == CardStateEnum.OnHand && PlayerManager.Instance.TryPlayCard(card))
                     {
                         NextLayer = GameObject.FindGameObjectWithTag("Board");
-                        PlayerManager.Instance.RaiseEvent(PlayerEventEnum.Play);
-                        cardState = CardStateEnum.OnBoard;
+                        card.CardState = CardStateEnum.OnBoard;
                     }
-                    if(cardState == CardStateEnum.OnBoard)
+                    if(card.CardState == CardStateEnum.OnBoard && RoundManager.Instance)
                     {
                         NextLayer = GameObject.FindGameObjectWithTag("CombatField");
-                        PlayerManager.Instance.RaiseEvent(PlayerEventEnum.Attack);
-                        cardState = CardStateEnum.OnAttack;
+                        PlayerManager.Instance.RaisePlayerEvent(PlayerEventEnum.Attack);
+                        card.CardState = CardStateEnum.OnAttack;
                     }
                     selectedObject.transform.SetParent(NextLayer.transform,false);
                 }

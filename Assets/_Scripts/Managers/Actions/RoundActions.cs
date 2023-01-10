@@ -14,7 +14,7 @@ public partial class RoundManager : MonoBehaviour
 
     public void Rally()
     {
-        _attackToken = true;
+        AttackToken = true;
         OnRally?.Invoke();
     }
     public void DrawCard(int q = 1)
