@@ -1,27 +1,26 @@
-﻿using Assets._Scripts.Managers;
+﻿using Assets._Scripts.Managers.RoundManagerProps;
 using UnityEngine;
 
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace Assets._Scripts.GameScripts
 {
     public class AttackTokenScript : MonoBehaviour
     {
-
+        [SerializeField] private Image image;
         public void Start()
         {
-
             RoundManager.Instance.OnRally += ChangeSpriteOnRally;
         }
 
         public void ChangeSpriteOnAttack()
         {
 
-            gameObject.GetComponentInChildren<Image>().tintColor = Color.HSVToRGB(44, 100, 90);
+            image.color = Color.red;
         }
         public void ChangeSpriteOnRally()
         {
-            gameObject.GetComponentInChildren<Image>().tintColor = Color.HSVToRGB(3, 100, 32);
+            image.color = Color.yellow;
         }
 
     }

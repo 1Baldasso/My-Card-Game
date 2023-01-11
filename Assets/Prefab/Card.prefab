@@ -706,6 +706,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1657b832248e48469508c74285de333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultSprite: {fileID: 0}
+  _imageContainer: {fileID: 6025258251697326661}
+  _costText: {fileID: 685793334249912721}
+  _attackText: {fileID: 5446486192943281057}
+  _healthText: {fileID: 2275392538270500524}
 --- !u!1 &6025258251697326663
 GameObject:
   m_ObjectHideFlags: 0

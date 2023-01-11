@@ -1,13 +1,8 @@
 ﻿using Assets._Scripts.Structures.Enumerators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets._Scripts.Structures.AbstractClasses
+using Assets._Scripts.Structures.AbstractClasses.Unit;
+namespace Assets._Scripts.Structures.AbstractClasses.Follower
 {
-    public abstract class Follower : Unit
+    public abstract partial class Follower : Unit.Unit
     {
         public Follower()
             : base()

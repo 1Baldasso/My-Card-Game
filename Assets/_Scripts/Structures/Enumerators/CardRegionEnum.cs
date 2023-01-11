@@ -11,6 +11,7 @@
         Noxus,
         Shurima,
         ShadowIsles,
+        PiltoverAndZaun,
         Runeterra
     }
 }

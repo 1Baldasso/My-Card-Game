@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Assets._Scripts.Managers.RoundManagerProps;
 using UnityEngine;
 
 namespace Assets._Scripts.GameScripts

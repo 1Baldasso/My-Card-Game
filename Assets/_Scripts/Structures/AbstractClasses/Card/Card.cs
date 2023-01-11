@@ -1,16 +1,13 @@
 ﻿using Assets._Scripts.Structures.Enumerators;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Drawing;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.Networking;
+using static System.Net.WebRequestMethods;
 
-namespace Assets._Scripts.Structures.AbstractClasses
+namespace Assets._Scripts.Structures.AbstractClasses.CardProps
 {
-    public abstract class Card
+    public abstract partial class Card
     {
 
         public UInt32 Id;
@@ -18,8 +15,10 @@ namespace Assets._Scripts.Structures.AbstractClasses
         public String CardCode;
         public String Description;
         public String FlavorText;
+        public string EffectLog = "";
+        public UInt16 _set;
         public UInt16 ManaCost;
-        public string ImageURL;
+        public string ImageURL = "http://dd.b.pvp.net/4_0_0/";
         public Sprite Image;
         public List<CardTypeEnum> Types = new();
         public CardRegionEnum Region;

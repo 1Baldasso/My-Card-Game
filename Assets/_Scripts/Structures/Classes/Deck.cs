@@ -1,13 +1,12 @@
-﻿using Assets._Scripts.Structures.AbstractClasses;
+﻿using Assets._Scripts.Structures.AbstractClasses.CardProps;
+using Assets._Scripts.Cards.Followers;
 using Assets._Scripts.Utils;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Assets._Scripts.Managers.GameManagerProps;
+using Assets._Scripts.Cards.Followers.PiltoverZaun;
 
-namespace Assets._Scripts.Structures.Structures
+namespace Assets._Scripts.Structures.Classes
 {
     public class Deck
     {
@@ -27,6 +26,8 @@ namespace Assets._Scripts.Structures.Structures
         /// Número atual de cartas no deck
         /// </summary>
         public int Count { get { return this.Cards.Count; } }
+
+        public static Deck Default = new Deck { Cards = new List<Card> { new VeteranInvestigator(), new TiannaCrownguard() } };
         /// <summary>
         /// Embaralha cartas no deck
         /// </summary>
@@ -41,11 +42,12 @@ namespace Assets._Scripts.Structures.Structures
         /// </summary>
         /// <param name="q">Quantidade de cartas compradas</param>
         /// <returns>As cartas compradas</returns>
-        public IEnumerable<Card> DrawCard(int q)
+        public Card DrawCard()
         {
-            IEnumerable<Card> cards = Cards.Take(q);
-            Cards.RemoveRange(0, q);
-            return cards;
+            var card = Cards.Take(1).FirstOrDefault();
+            GameManager.Instance.RaiseDrawCard(card);
+            Cards.RemoveRange(0, 1);
+            return card;
         }
     }
 }
