@@ -50,6 +50,7 @@ namespace Assets._Scripts.Managers.RoundManagerProps
         public void RoundEnd()
         {
             AttackToken = false;
+            OnAttackTokenChanged?.Invoke(AttackToken);
             GameManager.Instance.RaiseRoundEnd();
             RoundStart();
         }

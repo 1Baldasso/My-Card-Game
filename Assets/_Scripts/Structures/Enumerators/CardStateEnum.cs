@@ -5,6 +5,7 @@
         OnDeck,
         OnHand,
         OnBoard,
+        OnCombatField,
         OnAttack,
         OnBlock,
 

@@ -3,6 +3,7 @@ using System.Collections;
 using Assets._Scripts.Managers.RoundManagerProps;
 using Assets._Scripts.Managers.PlayerManagerProps;
 using Assets._Scripts.Managers.GameManagerProps;
+using Assets._Scripts.Managers.GameObjectManagerProps;
 using UnityEngine;
 
 namespace Assets._Scripts.Managers
@@ -18,7 +19,8 @@ namespace Assets._Scripts.Managers
             yield return new WaitUntil(() =>
             RoundManager.Instance.loaded
             && GameManager.Instance.loaded
-            && PlayerManager.Instance.loaded);
+            && PlayerManager.Instance.loaded
+            && GameObjectManager.Instance.loaded);
             LoadCompleted?.Invoke();
         }
     }

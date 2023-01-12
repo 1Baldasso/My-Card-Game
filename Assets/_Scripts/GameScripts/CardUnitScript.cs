@@ -9,6 +9,8 @@ using UnityEngine.UI;
 using TMPro;
 using Assets._Scripts.Cards.Followers;
 using System.Collections;
+using System.Linq;
+using Assets._Scripts.Managers.GameObjectManagerProps;
 
 namespace Assets._Scripts.GameScripts
 {
@@ -17,10 +19,8 @@ namespace Assets._Scripts.GameScripts
         private Vector3 offset;
         private GameObject selectedObject;
         public Unit card;
+        public Transform actualParent;
         private int YforNextLayer;
-        private GameObject NextLayer;
-        private InitialTransformDTO initialTransform;
-        [SerializeField] private Sprite _defaultSprite;
         [SerializeField] private Image _imageContainer;
         [SerializeField] private TextMeshProUGUI _costText;
         [SerializeField] private TextMeshProUGUI _attackText;
@@ -55,6 +55,7 @@ namespace Assets._Scripts.GameScripts
                     {
                         selectedObject = targetObject.transform.gameObject;
                         offset = selectedObject.transform.position - mousePosition;
+                        actualParent = selectedObject.transform;
                         selectedObject.transform.SetParent(null,false);
                     }
                 }
@@ -66,47 +67,43 @@ namespace Assets._Scripts.GameScripts
             }
             if (Input.GetMouseButtonUp(0) && selectedObject != null)
             {
-                if (selectedObject.transform.position.y > YforNextLayer)
+                var overlapping = Physics2D.OverlapPointAll(mousePosition);
+                Transform nextLayer = null;
+                switch (card.CardState)
+                {
+                    case CardStateEnum.OnHand:
+                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("Board")).transform;
+                        break;
+                    case CardStateEnum.OnBoard:
+                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("CombatField")).transform;
+                        break;
+                    case CardStateEnum.OnCombatField:
+                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("Board")).transform;
+                        break;
+                }
+                if (nextLayer != null)
                 {
                     switch (card.CardState)
                     {
                         case CardStateEnum.OnHand:
                             if (PlayerManager.Instance.TryPlayCard(card))
                             {
-                                NextLayer = GameObject.FindGameObjectWithTag("Board");
-                                selectedObject.transform.SetParent(NextLayer.transform, false);
                                 card.CardState = CardStateEnum.OnBoard;
                                 card.RaiseSummon();
-                            }
-                            else
-                            {
-                                selectedObject.transform
-                                    .SetParent(GameObject.FindGameObjectWithTag("Hand").transform,false);
-                                Debug.Log("U have no mana for this action");
                             }
                             break;
                         case CardStateEnum.OnBoard:
                             if (RoundManager.Instance.AttackToken)
-                            {
-                                NextLayer = GameObject.FindGameObjectWithTag("CombatField");
-                                //PlayerManager.Instance.RaisePlayerEvent(PlayerEventEnum.Attack);
-                                card.CardState = CardStateEnum.OnAttack;
-                                selectedObject.transform.SetParent(NextLayer.transform, false);
-                            }
-                            else
-                            {
-                                selectedObject.transform
-                                    .SetParent(GameObject.FindGameObjectWithTag("Board").transform, false);
-                                Debug.Log("U have no attack token for this action");
-                            }
+                                card.CardState = CardStateEnum.OnCombatField;
+                            break;
+                        case CardStateEnum.OnCombatField:
+                            card.CardState = CardStateEnum.OnBoard;
                             break;
                     }
+                    GameObjectManager.Instance.ChangeCardObjectLayer(selectedObject, nextLayer);
                 }
                 else
-                
-                    selectedObject.transform
-                        .SetParent(GameObject.FindGameObjectWithTag(
-                            card.CardState.ToString().Remove(0,2)).transform,false);
+                    GameObjectManager.Instance.ChangeCardObjectLayer(selectedObject, actualParent);
                 selectedObject = null;
             }
         }

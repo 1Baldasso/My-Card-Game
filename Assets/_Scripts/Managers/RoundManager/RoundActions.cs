@@ -5,14 +5,14 @@ namespace Assets._Scripts.Managers.RoundManagerProps
 {
     public partial class RoundManager : MonoBehaviour
     {
-        public event Action OnRally;
+        public event Action<bool> OnAttackTokenChanged;
         public event Action OnCardDrawn;
         public event Action OnPass;
 
         public void Rally()
         {
             AttackToken = true;
-            OnRally?.Invoke();
+            OnAttackTokenChanged?.Invoke(AttackToken);
         }
         public void DrawCard(int q = 1)
         {

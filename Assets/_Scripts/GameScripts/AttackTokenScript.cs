@@ -8,20 +8,11 @@ namespace Assets._Scripts.GameScripts
     public class AttackTokenScript : MonoBehaviour
     {
         [SerializeField] private Image image;
-        public void Start()
-        {
-            RoundManager.Instance.OnRally += ChangeSpriteOnRally;
-        }
 
-        public void ChangeSpriteOnAttack()
-        {
+        private void Start() => RoundManager.Instance.OnAttackTokenChanged += ChangeAttackTokenSprite;   
+        private void OnDestroy() => RoundManager.Instance.OnAttackTokenChanged += ChangeAttackTokenSprite;
 
-            image.color = Color.red;
-        }
-        public void ChangeSpriteOnRally()
-        {
-            image.color = Color.yellow;
-        }
+        private void ChangeAttackTokenSprite(bool token) => image.color = token ? Color.yellow : Color.red;
 
     }
 }

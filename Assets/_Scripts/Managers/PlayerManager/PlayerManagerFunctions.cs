@@ -6,8 +6,10 @@ namespace Assets._Scripts.Managers.PlayerManagerProps
 {
     public partial class PlayerManager
     {
-        public void MaxManaIncrease() => _maxMana++;
-
+        public void MaxManaIncrease()
+        {
+            if (_maxMana < 10) _maxMana++;
+        }
         public void HealNexus(int q)
         {
             var finalHealth = _nexusHealth + q;
