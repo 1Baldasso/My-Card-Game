@@ -7,6 +7,7 @@ namespace Assets._Scripts.Managers.PlayerManagerProps
         public event Action OnRoundStartHandled;
         public event Action OnRoundEndHandled;
         public event Action CardDrawnHandled;
-        public event Action OnManaChanged;
+        public event Action<int> OnManaChanged;
+        public event Action<int> OnSpellManaChanged;
     }
 }

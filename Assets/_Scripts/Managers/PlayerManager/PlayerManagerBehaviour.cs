@@ -34,13 +34,14 @@ namespace Assets._Scripts.Managers.PlayerManagerProps
         {
             MaxManaIncrease();
             _mana = _maxMana;
-            OnManaChanged?.Invoke();
+            OnManaChanged?.Invoke(Mana);
             OnRoundStartHandled?.Invoke();
         }
 
         private void HandleRoundEnd()
         {
             _spellMana = _mana > 3 ? 3 : _mana;
+            OnSpellManaChanged?.Invoke(SpellMana);
             OnRoundEndHandled?.Invoke();
         }
 

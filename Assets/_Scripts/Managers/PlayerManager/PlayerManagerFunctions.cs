@@ -33,6 +33,7 @@ namespace Assets._Scripts.Managers.PlayerManagerProps
                         _mana += _spellMana;
                         _spellMana = 0;
                     }
+                    OnSpellManaChanged?.Invoke(SpellMana);
                     canPlayCard = true;
                 }
             }
@@ -45,7 +46,7 @@ namespace Assets._Scripts.Managers.PlayerManagerProps
             if (canPlayCard)
             {
                 _mana -= card.ManaCost;
-                OnManaChanged?.Invoke();
+                OnManaChanged?.Invoke(Mana);
             }
 
             return canPlayCard;

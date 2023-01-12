@@ -14,7 +14,7 @@ namespace Assets._Scripts.GameScripts
             TMP = gameObject.GetComponentInChildren<TextMeshProUGUI>();
             PlayerManager.Instance.OnManaChanged += HandleManaChanged;
         }
-        private void HandleManaChanged() => TMP.text = PlayerManager.Instance.Mana.ToString();
+        private void HandleManaChanged(int mana) => TMP.text = mana.ToString();
 
     }
 }

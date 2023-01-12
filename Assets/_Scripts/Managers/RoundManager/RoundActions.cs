@@ -29,5 +29,10 @@ namespace Assets._Scripts.Managers.RoundManagerProps
                 RoundEnd();
             _enemyHasPassed = !_enemyHasPassed;
         }
+
+        public void ConfirmAction()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

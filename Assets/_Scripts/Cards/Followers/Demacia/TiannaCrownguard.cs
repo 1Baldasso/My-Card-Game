@@ -25,14 +25,12 @@ namespace Assets._Scripts.Cards.Followers
             base.LoadImage();
             this.DecideEvent();
         }
-        protected override void DecideEvent() => this.OnSummon += Effect;
+        protected override void DecideEvent() => this.OnPlay += Effect;
 
         protected override void Effect()
         {
-            EffectLog = "Tianna Rallies";
             RoundManager.Instance.Rally();
             this.RaiseEffectTriggered();
-            EffectLog = "";
         }
     }
 }
