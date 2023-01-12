@@ -20,7 +20,6 @@ namespace Assets._Scripts.GameScripts
         private GameObject selectedObject;
         public Unit card;
         public Transform actualParent;
-        private int YforNextLayer;
         [SerializeField] private Image _imageContainer;
         [SerializeField] private TextMeshProUGUI _costText;
         [SerializeField] private TextMeshProUGUI _attackText;
@@ -55,7 +54,7 @@ namespace Assets._Scripts.GameScripts
                     {
                         selectedObject = targetObject.transform.gameObject;
                         offset = selectedObject.transform.position - mousePosition;
-                        actualParent = selectedObject.transform;
+                        actualParent = selectedObject.transform.parent.transform;
                         selectedObject.transform.SetParent(null,false);
                     }
                 }
@@ -68,17 +67,17 @@ namespace Assets._Scripts.GameScripts
             if (Input.GetMouseButtonUp(0) && selectedObject != null)
             {
                 var overlapping = Physics2D.OverlapPointAll(mousePosition);
-                Transform nextLayer = null;
+                Transform? nextLayer = null;
                 switch (card.CardState)
                 {
                     case CardStateEnum.OnHand:
-                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("Board")).transform;
+                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("Board"))?.transform;
                         break;
                     case CardStateEnum.OnBoard:
-                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("CombatField")).transform;
+                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("CombatField"))?.transform;
                         break;
                     case CardStateEnum.OnCombatField:
-                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("Board")).transform;
+                        nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("Board"))?.transform;
                         break;
                 }
                 if (nextLayer != null)

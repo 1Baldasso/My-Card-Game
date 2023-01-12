@@ -27,7 +27,7 @@ namespace Assets._Scripts.Structures.Classes
         /// </summary>
         public int Count { get { return this.Cards.Count; } }
 
-        public static Deck Default = new Deck { Cards = new List<Card> { new VeteranInvestigator(), new TiannaCrownguard() } };
+        public static Deck Default = new() { Cards = new List<Card> { new VeteranInvestigator(), new CithriaOfCloudField(), new TiannaCrownguard() } };
         /// <summary>
         /// Embaralha cartas no deck
         /// </summary>

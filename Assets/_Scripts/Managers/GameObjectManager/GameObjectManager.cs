@@ -25,8 +25,8 @@ namespace Assets._Scripts.Managers.GameObjectManagerProps
         public void ChangeCardObjectLayer(GameObject card, Transform nextLayer)
         {
             card.transform.SetPositionAndRotation(Vector2.zero, Quaternion.identity);
-            ChangeButtonOnStackAttack();
             card.transform.SetParent(nextLayer.transform);
+            ChangeButtonOnStackAttack();
             
         }
         public void ChangeButtonOnStackAttack()
