@@ -25,8 +25,9 @@ namespace Assets._Scripts.Cards.Followers
             this.Region = CardRegionEnum.Demacia;
             this.Rarity = RarityEnum.Epic;
             this.ImageURL = "http://dd.b.pvp.net/4_0_0/set1/en_us/img/cards/01DE031.png";
-            base.LoadImage();
+            //base.LoadImage();
             this.DecideEvent();
+            base.LoadLocalImage();
         }
         protected override void DecideEvent() => RoundManager.Instance.OnRoundEnd += Effect;
 

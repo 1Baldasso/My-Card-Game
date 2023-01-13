@@ -24,6 +24,7 @@ namespace Assets._Scripts.Cards.Followers
             this.ImageURL = "http://dd.b.pvp.net/4_0_0/set1/en_us/img/cards/01DE020.png";
             base.LoadImage();
             this.DecideEvent();
+            //base.LoadLocalImage();
         }
         protected override void DecideEvent() { }
 

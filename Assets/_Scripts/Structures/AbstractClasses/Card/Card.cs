@@ -1,6 +1,7 @@
 ﻿using Assets._Scripts.Structures.Enumerators;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using static System.Net.WebRequestMethods;
@@ -48,6 +49,30 @@ namespace Assets._Scripts.Structures.AbstractClasses.CardProps
 
             // Create a new Sprite from the downloaded image
             Image = Sprite.Create(downloadedImage, new Rect(0, 0, downloadedImage.width, downloadedImage.height), new Vector2(0.5f, 0.5f));
+        }
+        protected void LoadLocalImage()
+        {
+            var SpriteTexture = LoadTexture();
+            Image = Sprite.Create(SpriteTexture, new Rect(0, 0, SpriteTexture.width, SpriteTexture.height), new Vector2(0, 0));
+        }
+
+        private Texture2D LoadTexture()
+        {
+            Texture2D Text2D;
+            byte[] fileData;
+
+            string currentPath = Application.dataPath;
+            string sFile =  currentPath + $"/Sprites/Cards/{CardCode}.png";
+            string filePath = Path.GetFullPath(sFile);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                fileData = System.IO.File.ReadAllBytes(filePath);
+                Text2D = new Texture2D(2, 3);
+                if(Text2D.LoadImage(fileData))
+                    return Text2D;
+            }
+            return null;
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Assets._Scripts.Cards.Followers.PiltoverZaun
             this.ImageURL = "https://dd.b.pvp.net/4_0_0/set2/en_us/img/cards/02PZ010.png";
             base.LoadImage();
             this.DecideEvent();
+            //base.LoadLocalImage();
         }
 
         protected override void DecideEvent() => this.OnSummon += Effect;

@@ -3,6 +3,8 @@ using Assets._Scripts.Structures.Enumerators;
 using Assets._Scripts.Managers.RoundManagerProps;
 using System.Collections.Generic;
 using Assets._Scripts.Managers.GameManagerProps;
+using UnityEngine;
+using System.IO;
 
 namespace Assets._Scripts.Cards.Followers
 {
@@ -24,6 +26,7 @@ namespace Assets._Scripts.Cards.Followers
             this.ImageURL = "http://dd.b.pvp.net/4_0_0/set1/en_us/img/cards/01DE039.png";
             base.LoadImage();
             this.DecideEvent();
+            //base.LoadLocalImage();
         }
         protected override void DecideEvent() { }
         protected override void Effect() { }
