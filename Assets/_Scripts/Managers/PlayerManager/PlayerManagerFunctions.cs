@@ -1,6 +1,7 @@
 ﻿using Assets._Scripts.Structures.AbstractClasses.CardProps;
 using Assets._Scripts.Managers.GameManagerProps;
 using Assets._Scripts.Structures.Enumerators;
+using System;
 
 namespace Assets._Scripts.Managers.PlayerManagerProps
 {
@@ -10,9 +11,9 @@ namespace Assets._Scripts.Managers.PlayerManagerProps
         {
             if (_maxMana < 10) _maxMana++;
         }
-        public void HealNexus(int q)
+        public void HealNexus(int heal)
         {
-            var finalHealth = _nexusHealth + q;
+            var finalHealth = _nexusHealth + heal;
             if (finalHealth > 20)
                 _nexusHealth = 20;
             else
@@ -52,11 +53,36 @@ namespace Assets._Scripts.Managers.PlayerManagerProps
             return canPlayCard;
         }
 
-        public void DamageNexus(int q)
+        public void DamageNexus(int damage)
         {
-            _nexusHealth -= q;
+            _nexusHealth -= damage;
+            OnNexusDamaged?.Invoke(damage);
             if (_nexusHealth <= 0)
                 GameManager.Instance.RaiseMatchEnd();
+        }
+
+        public void ConfirmAction()
+        {
+            if (PreparedAction is null)
+                return;
+            switch (PreparedAction)
+            {
+                case PrepareActionEnum.Attack:
+                    ConfirmAttack();
+                    break;
+                case PrepareActionEnum.Spell:
+                    ConfirmSpell();
+                    break;
+                case PrepareActionEnum.Skill:
+                    ConfirmSkill();
+                    break;
+            }
+            PreparedAction = null;
+        }
+
+        public void PrepareAction(PrepareActionEnum? ActionToPrepare)
+        {
+            this.PreparedAction = ActionToPrepare;
         }
 
     }

@@ -4,6 +4,8 @@ using Assets._Scripts.Managers;
 using System;
 using System.Collections;
 using UnityEngine;
+using Assets._Scripts.Structures.Classes;
+using Unity.VisualScripting;
 
 namespace Assets._Scripts.Managers.RoundManagerProps
 {
@@ -12,6 +14,7 @@ namespace Assets._Scripts.Managers.RoundManagerProps
 
         private bool _enemyHasPassed = false;
         private UInt16 _RoundNumber;
+        public UInt16 UnitsDiedOnRound { get; private set; }
         private AttackRoundEnum AttackRound;
 
         public static RoundManager Instance;
@@ -29,6 +32,7 @@ namespace Assets._Scripts.Managers.RoundManagerProps
         public void Start()
         {
             LoadManager.Instance.LoadCompleted += RoundStart;
+            Deck.Default.Shuffle();
             loaded = true;
         }
         public void OnDestroy()
@@ -39,6 +43,7 @@ namespace Assets._Scripts.Managers.RoundManagerProps
 
         public void RoundStart()
         {
+            UnitsDiedOnRound = 0;
             _RoundNumber++;
             GameManager.Instance.RaiseRoundStart();
             DrawCard();
@@ -51,9 +56,15 @@ namespace Assets._Scripts.Managers.RoundManagerProps
         {
             AttackToken = false;
             OnAttackTokenChanged?.Invoke(AttackToken);
-            GameManager.Instance.RaiseRoundEnd();
+            this.OnRoundEnd?.Invoke();
             RoundStart();
         }
 
+        public void HandleUnitsAttack()
+        {
+            AttackToken = AttackToken ? !AttackToken : false;
+            AttackToken = false;
+            this.OnAttackTokenChanged?.Invoke(AttackToken);
+        }
     }
 }

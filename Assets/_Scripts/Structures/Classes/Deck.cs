@@ -26,8 +26,6 @@ namespace Assets._Scripts.Structures.Classes
         /// Número atual de cartas no deck
         /// </summary>
         public int Count { get { return this.Cards.Count; } }
-
-        public static Deck Default = new() { Cards = new List<Card> { new VeteranInvestigator(), new CithriaOfCloudField(), new TiannaCrownguard() } };
         /// <summary>
         /// Embaralha cartas no deck
         /// </summary>
@@ -49,5 +47,25 @@ namespace Assets._Scripts.Structures.Classes
             Cards.RemoveRange(0, 1);
             return card;
         }
+
+        public void Shuffle() => this.Cards.Shuffle();
+        public static Deck Default = 
+            new() { Cards = new List<Card> {
+                new VeteranInvestigator(), 
+                new VeteranInvestigator(), 
+                new VeteranInvestigator(), 
+                new CithriaOfCloudField(), 
+                new CithriaOfCloudField(), 
+                new CithriaOfCloudField(), 
+                new TiannaCrownguard(),
+                new TiannaCrownguard(),
+                new TiannaCrownguard(),
+                new Dawnspeakers(),
+                new Dawnspeakers(),
+                new Dawnspeakers(),
+                new VanguardDefender(),
+                new VanguardDefender(),
+                new VanguardDefender(),
+            } };
     }
 }

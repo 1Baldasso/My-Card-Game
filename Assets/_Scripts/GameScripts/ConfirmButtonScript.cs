@@ -1,5 +1,4 @@
-﻿using Assets._Scripts.Managers.RoundManagerProps;
-using System.Collections;
+﻿using Assets._Scripts.Managers.PlayerManagerProps;
 using UnityEngine;
 
 namespace Assets._Scripts.GameScripts
@@ -8,7 +7,7 @@ namespace Assets._Scripts.GameScripts
     {
         private void OnMouseDown()
         {
-            RoundManager.Instance.ConfirmAction();
+            PlayerManager.Instance.ConfirmAction();
         }
     }
 }

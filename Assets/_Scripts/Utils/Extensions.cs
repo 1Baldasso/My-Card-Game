@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
-
+using Unity.VisualScripting;
 
 namespace Assets._Scripts.Utils
 {
@@ -23,6 +23,14 @@ namespace Assets._Scripts.Utils
                 T value = list[k];
                 list[k] = list[n];
                 list[n] = value;
+            }
+        }
+
+        public static void ExecuteForEach<T>(this IEnumerable<T> list, Predicate<T> predicate)
+        {
+            foreach (var item in list)
+            {
+                predicate(item);
             }
         }
     }

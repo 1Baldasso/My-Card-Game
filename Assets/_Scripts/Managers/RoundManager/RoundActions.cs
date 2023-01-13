@@ -14,9 +14,9 @@ namespace Assets._Scripts.Managers.RoundManagerProps
             AttackToken = true;
             OnAttackTokenChanged?.Invoke(AttackToken);
         }
-        public void DrawCard(int q = 1)
+        public void DrawCard(int amout = 1)
         {
-            for (int i = 0; i < q;i++)
+            for (int i = 0; i < amout;i++)
             {
                 OnCardDrawn?.Invoke();
             }
@@ -30,9 +30,9 @@ namespace Assets._Scripts.Managers.RoundManagerProps
             _enemyHasPassed = !_enemyHasPassed;
         }
 
-        public void ConfirmAction()
+        public void CardDied()
         {
-            throw new NotImplementedException();
+            UnitsDiedOnRound++;
         }
     }
 }

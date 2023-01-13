@@ -25,14 +25,18 @@ namespace Assets._Scripts.GameScripts
         [SerializeField] private TextMeshProUGUI _attackText;
         [SerializeField] private TextMeshProUGUI _healthText;
 
+        public void UpdateAttributes()
+        {
+            _costText.text = card.ManaCost.ToString();
+            _attackText.text = card.Attack.ToString();
+            _healthText.text = card.Health.ToString();
+        }
         public void SetAttributes()
         {
             gameObject.name = card.Name;
             card.CardState = CardStateEnum.OnHand;
-            _costText.text = card.ManaCost.ToString();
-            _attackText.text = card.Attack.ToString();
-            _healthText.text = card.Health.ToString();
             StartCoroutine(nameof(ProvideImage));
+            UpdateAttributes();
         }
 
         void Update()
@@ -67,7 +71,7 @@ namespace Assets._Scripts.GameScripts
             if (Input.GetMouseButtonUp(0) && selectedObject != null)
             {
                 var overlapping = Physics2D.OverlapPointAll(mousePosition);
-                Transform? nextLayer = null;
+                Transform nextLayer = null;
                 switch (card.CardState)
                 {
                     case CardStateEnum.OnHand:
@@ -80,29 +84,37 @@ namespace Assets._Scripts.GameScripts
                         nextLayer = overlapping.FirstOrDefault(x => x.gameObject.CompareTag("Board"))?.transform;
                         break;
                 }
-                if (nextLayer != null)
+                if (nextLayer == null)
+                    nextLayer = actualParent;
+                else
                 {
+                    bool canChange = false;
                     switch (card.CardState)
                     {
                         case CardStateEnum.OnHand:
-                            if (PlayerManager.Instance.TryPlayCard(card))
+                            if (canChange = PlayerManager.Instance.TryPlayCard(card))
                             {
                                 card.CardState = CardStateEnum.OnBoard;
                                 card.RaiseSummon();
                             }
                             break;
                         case CardStateEnum.OnBoard:
-                            if (RoundManager.Instance.AttackToken)
+                            if (canChange = RoundManager.Instance.AttackToken)
+                            {
                                 card.CardState = CardStateEnum.OnCombatField;
+                                PlayerManager.Instance.PrepareAction(PrepareActionEnum.Attack);
+                            }
                             break;
                         case CardStateEnum.OnCombatField:
+                            canChange = true;
                             card.CardState = CardStateEnum.OnBoard;
+                            PlayerManager.Instance.PrepareAction(null);
                             break;
                     }
-                    GameObjectManager.Instance.ChangeCardObjectLayer(selectedObject, nextLayer);
+                    if (!canChange)
+                        nextLayer = actualParent;
                 }
-                else
-                    GameObjectManager.Instance.ChangeCardObjectLayer(selectedObject, actualParent);
+                GameObjectManager.Instance.ChangeCardObjectLayer(selectedObject, nextLayer);
                 selectedObject = null;
             }
         }
